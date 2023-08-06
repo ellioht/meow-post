@@ -12,6 +12,7 @@ const Layout = ({ children }) => {
     <html lang="en">
       <body>
         <Provider>
+          <div className="bgmain" />
           <main className="app">
             <Nav />
             {children}
