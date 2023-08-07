@@ -1,24 +1,37 @@
 "use client";
 
 import { useState, useEffect, use } from "react";
+import MeowCard from "./MeowCard";
 
 const MeowCardList = ({ data, handleTagClick }) => {
   return (
-    <div className="mt-16">
+    <div className="mt-16 feed-container">
       {data.map((meow) => (
-        <PromptCard 
-          meow={meow} 
-          handleTagClick={handleTagClick} 
-          key={meow._id} />
+        <MeowCard meow={meow} handleTagClick={handleTagClick} key={meow._id} />
       ))}
     </div>
   );
 };
 
 const Feed = () => {
-  return (
-    <div>Feed</div>
-  )
-}
+  const [meowList, setMeowList] = useState([]);
 
-export default Feed
+  useEffect(() => {
+    const getMeowList = async () => {
+      const res = await fetch("/api/meow");
+      const data = await res.json();
+      setMeowList(data);
+    };
+    getMeowList();
+  }, []);
+
+  return (
+    <div className="w-screen">
+      <section className="md:mx-20">
+        <MeowCardList data={meowList} handleTagClick={() => {}} />
+      </section>
+    </div>
+  );
+};
+
+export default Feed;

@@ -1,20 +1,28 @@
 import { connectToDatabase } from "@/utils/database";
 import Meow from "@/models/meow";
 
-export const GET = async (req, res) => {
+export const POST = async (req, res) => {
+  const { userId, meow, tag } = await req.json();
+
   try {
     await connectToDatabase();
 
-    const meows = await Meow.find({}).populate("creator");
+    const newMeow = new Meow({
+      creator: userId,
+      meow,
+      tag,
+    });
 
-    return new Response(JSON.stringify(meows), {
-      status: 200,
+    await newMeow.save();
+
+    return new Response(JSON.stringify(newMeow), {
+      status: 201,
       headers: {
         "Content-Type": "application/json",
       },
     });
   } catch (error) {
-    return new Response("Failed to fetch meows", {
+    return new Response("Failed to create a new meow", {
       status: 500,
       headers: {
         "Content-Type": "application/json",
