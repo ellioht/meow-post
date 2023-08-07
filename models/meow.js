@@ -12,22 +12,18 @@ const MeowSchema = new Schema({
   },
   tag: {
     type: String,
-    required: [true, "Tag is required"],
   },
   likes: {
     type: Number,
     default: 0,
-    required: [true, "Likes is required"],
   },
   likedBy: [{
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: [true, "Creator is required"],
   }],
   createdAt: {
     type: Date,
     default: Date.now,
-    required: [true, "Date created is required"],
   },
 });
 
